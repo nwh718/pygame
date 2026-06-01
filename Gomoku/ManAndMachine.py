@@ -235,16 +235,22 @@ def _get_clickpoint(click_pos):
     pos_y = click_pos[1] - Start_Y
     if pos_x < -Inside_Width or pos_y < -Inside_Width:
         return None
-    x = pos_x // SIZE
-    y = pos_y // SIZE
-    if pos_x % SIZE > Stone_Radius:
-        x += 1
-    if pos_y % SIZE > Stone_Radius:
-        y += 1
-    if x >= Line_Points or y >= Line_Points:
+    
+    col = round(pos_x / SIZE)
+    row = round(pos_y / SIZE)
+    
+    nearest_x = col * SIZE
+    nearest_y = row * SIZE
+    
+    distance = ((pos_x - nearest_x) ** 2 + (pos_y - nearest_y) ** 2) ** 0.5
+    
+    if distance > 15:
+        return None
+    
+    if col < 0 or col >= Line_Points or row < 0 or row >= Line_Points:
         return None
 
-    return Point(x, y)
+    return Point(col, row)
 
 
 class AI:
