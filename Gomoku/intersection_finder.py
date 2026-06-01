@@ -17,8 +17,9 @@ def get_nearest_intersection(x, y, offset_x, offset_y, cell_size, tolerance=15):
     relative_x = x - offset_x
     relative_y = y - offset_y
     
-    col = round(relative_x / cell_size)
-    row = round(relative_y / cell_size)
+    # 避免 Python round() 产生的“奇进偶舍”（银行家舍入）导致边缘点击判定偏移
+    col = int((relative_x + cell_size / 2) // cell_size)
+    row = int((relative_y + cell_size / 2) // cell_size)
     
     nearest_x = col * cell_size
     nearest_y = row * cell_size

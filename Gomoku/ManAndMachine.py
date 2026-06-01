@@ -236,8 +236,9 @@ def _get_clickpoint(click_pos):
     if pos_x < -Inside_Width or pos_y < -Inside_Width:
         return None
     
-    col = round(pos_x / SIZE)
-    row = round(pos_y / SIZE)
+    # 使用整除以避免 Python 内置 round() 在 .5 时向偶数舍入导致的定位错误
+    col = int((pos_x + SIZE / 2) // SIZE)
+    row = int((pos_y + SIZE / 2) // SIZE)
     
     nearest_x = col * SIZE
     nearest_y = row * SIZE
